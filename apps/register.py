@@ -7,9 +7,9 @@ import flask
 import requests
 import base64
 
-#from dash import app
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
+
 
 #logo crime.data
 img_logo = "assets/logo1.png"
@@ -20,6 +20,7 @@ navbar = dbc.Navbar(
             dbc.Row(
                 [
                     dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),height="80px")),
+                
                 ],
             ),
         )
@@ -60,12 +61,15 @@ body=html.Div(
                         email_input,
                         password_input,
                         submit
-                    ])
+                    ]),
+                    dcc.Link('VIZUALIZAR DADOS', href='/apps/dash_'),
             
                 ]
             ),
             
-        ],className="container w-50 mb-3 ", color="info", outline=True, body=True, style={"width": "100rem",})
+        ],className="container w-50 mb-3 ", color="info", outline=True, body=True, style={"width": "100rem",}),
+    
+    
     ]
 )
 app._layout = html.Div([navbar,body])
@@ -76,7 +80,7 @@ app._layout = html.Div([navbar,body])
     [State('email', 'value'), State('password', 'value')])
 def update_output(n_clicks, value1, value2):
     #requisição para a API e registro do novo usuário
-    url = 'http://54.174.134.220:8080/cadastro'
+    url = 'https://crimepontodata.tk/cadastro'
     headers = {"Content-Type":"application/json"}
     if (value1 and value2) is not None:
         payload = '{"email": " ' + str(value1) + ' ","password": "' + str(value2) + '"}'
