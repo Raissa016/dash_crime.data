@@ -23,7 +23,7 @@ navbar = dbc.Navbar(
             dbc.Row(
                 [
                     dbc.Col(html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),height="75px")),
-                    dbc.Col(html.P("Carlos Eduardo, Geronimo, Lucas Natanael, Raissa e Sergio", style={'font-size':'10px','font-weight': 'bold'}),align='center',md=12)
+                    dbc.Col(html.P("Carlos Eduardo, Gerônimo, Lucas Natanael, Raíssa e Sérgio", style={'font-size':'10px','font-weight': 'bold'}),align='center',md=12)
                 ],
             ),
         )
@@ -32,7 +32,6 @@ navbar = dbc.Navbar(
     sticky="top",
     #className='container'
 )
-
 ##### DROPDOWNS PARA QUANTIDADES #####
 #dropdown com os anos no campo de quantidade de crimes por ano
 dropdown1_crimes_ano = dbc.FormGroup(
@@ -92,7 +91,8 @@ dropdown3_ocorrencias = dbc.FormGroup(
         }),
         dcc.Dropdown(
             id="nome_crime_ocorrencias",
-            options=[{'label':'Furto de veículo','value':'furto_de_veiculo'},
+            options=[{'label':'Todos','value':'todos'},
+            {'label':'Furto de veículo','value':'furto_de_veiculo'},
             {'label':'Roubo de veículo','value':'roubo_de_veiculo'},
             {'label':'Roubo a instituição financeira','value':'roubo_a_instituiçao_financeira'},
             {'label':'Roubo de carga','value':'roubo_de_carga'},
@@ -144,7 +144,8 @@ dropdown5_vitimas = dbc.FormGroup(
         }),
         dcc.Dropdown(
             id="nome_crime_vitimas",
-            options=[{'label':'Homicídio doloso','value':'homicidio_doloso'},
+            options=[{'label':'Todos','value':'todos'},
+            {'label':'Homicídio doloso','value':'homicidio_doloso'},
             {'label':'Lesão corporal seguida de morte','value':'lesao_corporal_seguida_de_morte'},
             {'label':'Roubo seguido de morte (latrocínio)','value':'roubo_seguido_de_morte_(latrocinio)'},
             ],
@@ -692,7 +693,7 @@ def update_crimes_ano_graph(value):
     if value is None:
         raise PreventUpdate
     else:
-        data_crime_ano = requests.get("http://54.174.134.220:8080/quantidade/crimes/"+str(value))
+        data_crime_ano = requests.get("https://crimepontodata.tk/quantidade/crimes/"+str(value))
         data_crime_ano = data_crime_ano.json()
         figure = {
             'data':[
@@ -709,11 +710,14 @@ def update_crimes_ano_graph(value):
 )
 
 def update_ocorrencias(value_uf, value_nome_crime):
-    data_ocorrencias = requests.get("http://54.174.134.220:8080/quantidade/ocorrencias/"+str(value_nome_crime)+"/"+str(value_uf))
+    data_ocorrencias = requests.get("https://crimepontodata.tk/quantidade/ocorrencias/"+str(value_nome_crime)+"/"+str(value_uf))
     data_ocorrencias = data_ocorrencias.json()
     label = "Selecione uma UF e o tipo de crime"
     if (value_uf and value_nome_crime) is not None:
-        label = str(data_ocorrencias['quantidade'])+" ocorrências no estado."
+        count = 0
+        for v in data_ocorrencias.values():
+            count = count + v
+        label = str(count)+" ocorrências no estado."
     return label
 
 #callback para o número total de vítimas
@@ -723,14 +727,20 @@ def update_ocorrencias(value_uf, value_nome_crime):
 )
 
 def update_vitimas(value_uf, value_nome_crime):
-    print(value_uf)
     if (value_uf and value_nome_crime) is None:
         raise PreventUpdate
     else:
-        data_vitimas = requests.get("http://54.174.134.220:8080/quantidade/vitimas/"+str(value_nome_crime)+"/"+str(value_uf))
+        data_vitimas = requests.get("https://crimepontodata.tk/quantidade/vitimas/"+str(value_nome_crime)+"/"+str(value_uf))
         data_vitimas = data_vitimas.json()
-        label = str(data_vitimas['quantidade'])+" vítimas no estado."
-        return label
+        if (value_nome_crime == 'todos'):
+            count = 0
+            for v in data_vitimas.values():
+                count = count + int(v)
+            label = str(count)+" vítimas no estado."
+            return label
+        else:
+            label = str(data_vitimas['quantidade'])+" vítimas no estado."
+            return label
 
 #callback média de vítimas mensais
 @app.callback(
@@ -749,7 +759,7 @@ def update_vitimas_mensais(value_nome_crime,value_uf,value_anos,value_mes_ini,va
             return label
         else:
             data_media_vitimas = requests.get(
-                "http://54.174.134.220:8080/media/vitimas/"+str(value_nome_crime)+"/"+str(value_uf)+
+                "https://crimepontodata.tk/media/vitimas/"+str(value_nome_crime)+"/"+str(value_uf)+
                 "/"+str(value_mes_ini)+"-"+str(value_anos[0])+"/"+str(value_mes_fim)+"-"+str(value_anos[1]))
             data_media_vitimas = data_media_vitimas.json()
             label = str(round(data_media_vitimas['vitimas'],2))+" é a média de vítimas no estado."
@@ -772,7 +782,7 @@ def update_ocorrencias_mensais(value_nome_crime,value_uf,value_anos,value_mes_in
             return label
         else:
             data_media_ocorrencias = requests.get(
-                "http://54.174.134.220:8080/media/ocorrencias/"+str(value_nome_crime)+"/"+str(value_uf)+
+                "https://crimepontodata.tk/media/ocorrencias/"+str(value_nome_crime)+"/"+str(value_uf)+
                 "/"+str(value_mes_ini)+"-"+str(value_anos[0])+"/"+str(value_mes_fim)+"-"+str(value_anos[1]))
             data_media_ocorrencias = data_media_ocorrencias.json()
             #print(data_media_ocorrencias)
@@ -789,7 +799,7 @@ def update_ranking_estadual_crime(value_nome_crime,value_num):
     if (value_nome_crime and value_num) is None:
         raise PreventUpdate
     else:
-        data_estadual_crime = requests.get("http://54.174.134.220:8080/ranking/"+str(value_num)+"/estadual/"+str(value_nome_crime))
+        data_estadual_crime = requests.get("https://crimepontodata.tk/ranking/"+str(value_num)+"/estadual/"+str(value_nome_crime))
         data_estadual_crime = data_estadual_crime.json()
         cidades = []
         quantidade = []
@@ -815,7 +825,7 @@ def update_ranking_criminal_estado(value_uf,value_num):
     if (value_uf and value_num) is None:
         raise PreventUpdate
     else:
-        data_criminal_estado = requests.get("http://54.174.134.220:8080/ranking/"+str(value_num)+"/criminal/"+str(value_uf))
+        data_criminal_estado = requests.get("https://crimepontodata.tk/ranking/"+str(value_num)+"/criminal/"+str(value_uf))
         data_criminal_estado = data_criminal_estado.json()
         crimes = []
         quantidade = []
@@ -831,4 +841,4 @@ def update_ranking_criminal_estado(value_uf,value_num):
         return figure
     
 if __name__ == '__main__':
-    app.run_server(debug = False)
+    app.run_server(host='0.0.0.0', port=8050, debug = True)
