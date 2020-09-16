@@ -4,7 +4,9 @@
 
 # Funções
 
-> Número de ocorrências e vítimas por ano
+> GET
+Número de ocorrências e vítimas por ano
+
 > Número total de ocorrências por estado
 > Número total de vítimas por estado
 > Média mensal de vítimas por estado
