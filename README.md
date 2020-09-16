@@ -4,12 +4,30 @@
 
 # Funções
 
-> GET
+> GET 
+
 Número de ocorrências e vítimas por ano
 
-> Número total de ocorrências por estado
-> Número total de vítimas por estado
-> Média mensal de vítimas por estado
-> Média mensal de ocorrências por estado
-> Ranking estadual por crime
-> Ranking criminal por estado
+> GET 
+
+Número total de ocorrências por estado
+
+> GET 
+
+Número total de vítimas por estado
+
+> GET 
+
+Média mensal de vítimas por estado
+
+> GET 
+
+Média mensal de ocorrências por estado
+
+> GET 
+
+Ranking estadual por crime
+
+> GET 
+
+Ranking criminal por estado
