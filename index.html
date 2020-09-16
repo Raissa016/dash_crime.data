@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>CRIME.DATA</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+ 
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+    </style>
+</head>
+    
+<body>
+      <div class=container>
+
+        <div>
+            <img src="assets/logobranca.png" alt="logo" style="height: 200px; width: auto;">
+        </div>
+      <h1>CRIME.DATA</h1>
+        <p>Clique para selecionar a ação desejada.</p>
+        </div>
+    <div class="navigation">
+      <button id="sized" class="menu">
+        <span></span>        
+      </button>
+        <div id="myModal" class="modal">
+        <!-- Modal content -->
+          <div class="modal-content animated           zoomIn">
+          <div class="modal-header">
+             <span class="close">×</span>
+             <img src="assets/Logo -  (6).png" alt="logo" style="height: 90px; width: auto;">
+             
+         </div>
+            
+        <div class="modal-body nav">
+
+            
+           <ul>
+             <li><a href="index.html">INICIO</a></li>
+             <li><a href="https://crimedata.netlify.app/">DOCUMENTAÇÃO</a></li>
+             <li><a href="dados.html">DADOS</a></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <hr>
+            <p>
+            <strong>API de Ocorrências Criminais </strong>
+            <br>Carlos Eduardo, Gerônimo Aguiar, Lucas Leite, Raíssa Sousa e Sérgio Saraiva.<br>
+            <p></p>
+            <b><a href="https://github.com/Sergio-Saraiva/api-crime-ponto-data">GitHub do projeto da API  •  </a></b>
+            <b><a href="https://github.com/Raissa016/API-documentacao">GitHub da documentação da API  •  </a></b>
+            <b><a href="https://github.com/Raissa016/dash_crime.data">GitHub da interface da API</a></b>
+            </p>
+          </div>
+        </div>
+      </div>
+    <script type="text/javascript">
+
+    
+    // Get Modal
+    var modal = document.getElementById('myModal');
+    
+    // Get pseudoelement to open Modal
+    var btn = document.getElementById("sized");
+    
+    // Get the <span> element to close Modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When user clicks button, open Modal
+    btn.onclick = function() {
+       modal.style.display = "block";
+       };
+    
+    // When user clicks Close (x), close Modal
+    span.onclick = function() {
+       modal.style.display = "none";
+       };
+    
+    // When user clicks anywhere outside of the Modal, close Modal
+     window.onclick = function(event) {
+        if (event.target == modal) {
+           modal.style.display = "none";
+           }
+        }
+    
+    </script>
+    </body>
+</html>
